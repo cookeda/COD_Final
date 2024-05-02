@@ -28,7 +28,11 @@ class TeamsSpider(scrapy.Spider):
         print("Debug Meta Team Name:", response.meta.get('team_name', 'No Team Name Found'))
         
         # Extracting match links
-        match_links = response.css('.table-hover > tbody:nth-child(2) > tr:nth-child(10) > td:nth-child(7) > a:nth-child(1)::attr(href)').getall()  # Update selector as needed
+        match_links = []
+        for t in range(1, 11):
+            match_links.append(response.css(f'.table-hover > tbody:nth-child(2) > tr:nth-child({t}) > td:nth-child(7) > a:nth-child(1)::attr(href)').get())  # Update selector as needed
+
+
         for link in match_links:
             match_url = response.urljoin(link)
             print("Queueing match page:", match_url)

@@ -1,0 +1,51 @@
+[
+
+][
+{"team_name": "Vegas Legion "},
+{"team_name": "Minnesota R\u00d8KKR "},
+{"team_name": "Los Angeles Guerrillas "},
+{"team_name": "Toronto Ultra "},
+{"team_name": "Seattle Surge "},
+{"team_name": "OpTic Texas "},
+{"team_name": "Miami Heretics "},
+{"team_name": "LA Thieves "},
+{"team_name": "Carolina Royal Ravens "},
+{"team_name": "Boston Breach "},
+{"team_name": "Atlanta FaZe "}
+][
+{"team_name": "Vegas Legion ", "match_id": "1402"},
+{"team_name": "Los Angeles Guerrillas ", "match_id": "1444"},
+{"team_name": "Miami Heretics ", "match_id": "1401"},
+{"team_name": "OpTic Texas ", "match_id": "1400"},
+{"team_name": "Toronto Ultra ", "match_id": "1430"},
+{"team_name": "Minnesota R\u00d8KKR ", "match_id": "1406"},
+{"team_name": "Seattle Surge ", "match_id": "1405"},
+{"team_name": "LA Thieves ", "match_id": "1431"},
+{"team_name": "Carolina Royal Ravens ", "match_id": "1443"},
+{"team_name": "Boston Breach ", "match_id": "1399"},
+{"team_name": "Atlanta FaZe ", "match_id": "1424"}
+][
+{"team_name": "Vegas Legion ", "match_id": "1402", "match_stats": []},
+{"team_name": "Miami Heretics ", "match_id": "1401", "match_stats": []},
+{"team_name": "Los Angeles Guerrillas ", "match_id": "1444", "match_stats": []},
+{"team_name": "OpTic Texas ", "match_id": "1400", "match_stats": []},
+{"team_name": "Toronto Ultra ", "match_id": "1430", "match_stats": []},
+{"team_name": "Seattle Surge ", "match_id": "1405", "match_stats": []},
+{"team_name": "Minnesota R\u00d8KKR ", "match_id": "1406", "match_stats": []},
+{"team_name": "LA Thieves ", "match_id": "1431", "match_stats": []},
+{"team_name": "Carolina Royal Ravens ", "match_id": "1443", "match_stats": []},
+{"team_name": "Boston Breach ", "match_id": "1399", "match_stats": []},
+{"team_name": "Atlanta FaZe ", "match_id": "1424", "match_stats": []}
+][
+{"team_name": "Vegas Legion ", "match_id": "1402", "filename": "Vegas Legion _1402.csv"},
+{"team_name": "Seattle Surge ", "match_id": "1405", "filename": "Seattle Surge _1405.csv"},
+{"team_name": "Toronto Ultra ", "match_id": "1430", "filename": "Toronto Ultra _1430.csv"},
+{"team_name": "Minnesota R\u00d8KKR ", "match_id": "1406", "filename": "Minnesota R\u00d8KKR _1406.csv"},
+{"team_name": "Los Angeles Guerrillas ", "match_id": "1444", "filename": "Los Angeles Guerrillas _1444.csv"},
+{"team_name": "Miami Heretics ", "match_id": "1401", "filename": "Miami Heretics _1401.csv"},
+{"team_name": "OpTic Texas ", "match_id": "1400", "filename": "OpTic Texas _1400.csv"},
+{"team_name": "LA Thieves ", "match_id": "1431", "filename": "LA Thieves _1431.csv"},
+{"team_name": "Carolina Royal Ravens ", "match_id": "1443", "filename": "Carolina Royal Ravens _1443.csv"},
+{"team_name": "Boston Breach ", "match_id": "1399", "filename": "Boston Breach _1399.csv"},
+{"team_name": "Atlanta FaZe ", "match_id": "1424", "filename": "Atlanta FaZe _1424.csv"}
+]

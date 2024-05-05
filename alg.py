@@ -17,9 +17,7 @@ df.dropna(inplace=True)
 
 df['team1_win'] = df['Winner_ID'] == df['Tm_1_ID']
 df['team2_win'] = df['Winner_ID'] == df['Tm_2_ID']
-temp = df['Tm_2_M1_Kills']
-df['Tm_2_M1_Kills'] = df['Tm_1_M1_KD']
-df['Tm_1_M1_KD'] = temp
+
 
 def calculate_averages(df):
     grouped = df.groupby(['Game', 'team1_win', 'team2_win'])

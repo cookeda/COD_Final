@@ -5,6 +5,16 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 import numpy as np
 
+def switch_case(x):
+    return {
+        'M1': 'HP',
+        'M2': 'S&D',
+        'M3': 'CTRL',
+        'M4': 'Total'
+    }.get(str(x))  # .get() returns the function associated with the key x, or default if x is not a key
+
+
+
 def main(x):
     # Connect to the SQLite database
     conn = sqlite3.connect('cod_results.db')
@@ -12,8 +22,10 @@ def main(x):
     # Query to fetch average kills for different modes and sort them by date
     query_modes = """
     SELECT *,
-        Total_Kills AS Total_M4_Kills
-    FROM Match_Aggregates_wEvent
+        Total_Kills AS Total_M4_Kills,
+        Tm_1_Tot_Kills AS Tm_1_M4_Kills,
+        Tm_2_Tot_Kills AS Tm_2_M4_Kills
+    FROM Master_Match_Aggregates_wEvent
     ORDER BY Date ASC;
     """
 
@@ -35,7 +47,7 @@ def main(x):
     df_long['Date_Num'] = (df_long['Date'] - df_long['Date'].min()) / pd.Timedelta(days=1)
 
      # Select mode-specific data
-    m1_kills_data = df_long[df_long['Mode'] == f'Total_M{x}_Kills']
+    m1_kills_data = df_long[df_long['Mode'] == f'Total_{x}_Kills']
 
     # Define marker styles for different modes
     markers = {'Total_M1_Kills': 'o', 'Total_M2_Kills': 's', 'Total_M3_Kills': '^', 'Total_M4_Kills': 'x'}
@@ -49,15 +61,17 @@ def main(x):
     scatter = plt.scatter(m1_kills_data['Date'], m1_kills_data['Mode_Kills'], 
                           c=pd.factorize(m1_kills_data['Game'])[0],  # Colors for games
                           cmap='viridis',
-                          marker=markers[m1_kills_data['Mode'].values[0]],  # Marker style from map
-                          s=sizes,  # Sizes from events
-                          alpha=0.15)
+                          marker='o',  # Marker style from map
+                          s=80,  # Sizes from events
+                          alpha=0.45)
 
     # Improve plot aesthetics
-    plt.title(f"Scatter Plot of Total Kills over Time by Game, Mode, and Event")
+    y = switch_case(x)
+    plt.title(f"Scatter Plot of {y} Total Kills by Game Span, and Event")
     plt.xlabel("Date")
-    plt.ylabel("Total Kills")
+    plt.ylabel(f"{y} Kills")
     plt.xticks(rotation=45)
+    plt.grid(True)
 
     # Create legend for games
     handles, labels = scatter.legend_elements(prop="colors", alpha=0.6)
@@ -69,5 +83,8 @@ def main(x):
 
 
 if __name__ == '__main__':
-    for x in range(1, 5):
-        main(x)
+    for x in ['Tot', 'M1', 'M2', 'M3']:
+        if x == 'Tot':
+            main('M4')
+        else:
+            main(x)

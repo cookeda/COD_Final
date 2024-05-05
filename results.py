@@ -16,6 +16,8 @@ class TeamsSpider(scrapy.Spider):
 
     def create_table(self):
         # Create tables if they don't exist
+        self.cur.execute('''DROP TABLE IF EXISTS Matches;''')
+        
         self.cur.execute('''CREATE TABLE IF NOT EXISTS Matches (
             Match_ID TEXT PRIMARY KEY,
             Date TEXT,
@@ -204,7 +206,7 @@ class TeamsSpider(scrapy.Spider):
         self.cur.execute('''
             INSERT INTO Matches (Match_ID, Date, Event, Duration, Tm_1_ID, Tm_2_ID, Winner_ID, Tm_1_Score, Tm_2_Score, Tm_1_Ovr_KD, Tm_2_Ovr_KD, Tm_1_Tot_Kills, Tm_2_Tot_Kills, Tm_1_Hill, Tm_2_Hill, Tm_1_FB, Tm_2_FB, Tm_1_FBed, Tm_2_FBed, Tm_1_Caps, Tm_2_Caps, M1, Tm_1_M1_Kills, Tm_2_M1_Kills, Tm_1_M1_KD, Tm_2_M1_KD, M2, Tm_1_M2_Kills, Tm_2_M2_Kills, Tm_1_M2_KD, Tm_2_M2_KD, M3, Tm_1_M3_Kills, Tm_2_M3_Kills, Tm_1_M3_KD, Tm_2_M3_KD)
                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ''', (match_id, date, major, duration, team1_id, team2_id, winner_id, t1_score, t2_score, t1_ovr_kd, t2_ovr_kd, t1_total_kills, t2_total_kills, t1_avg_hill, t2_avg_hill, t1_fb, t2_fb, t1_fbed, t2_fbed, t1_caps, t2_caps, m1, t1_m1_kills, t1_m1_kd, t2_m1_kills, t2_m1_kd, m2, t1_m2_kills, t2_m2_kills, t1_m2_kd, t2_m2_kd, m3, t1_m3_kills, t2_m3_kills, t1_m3_kd, t2_m3_kd))
+        ''', (match_id, date, major, duration, team1_id, team2_id, winner_id, t1_score, t2_score, t1_ovr_kd, t2_ovr_kd, t1_total_kills, t2_total_kills, t1_avg_hill, t2_avg_hill, t1_fb, t2_fb, t1_fbed, t2_fbed, t1_caps, t2_caps, m1, t1_m1_kills, t2_m1_kills, t1_m1_kd, t2_m1_kd, m2, t1_m2_kills, t2_m2_kills, t1_m2_kd, t2_m2_kd, m3, t1_m3_kills, t2_m3_kills, t1_m3_kd, t2_m3_kd))
         self.conn.commit()
 
         print("Success")

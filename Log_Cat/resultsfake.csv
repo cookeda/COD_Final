@@ -1,0 +1,33 @@
+t1,t2,tm_1_score,tm_2_score,tm_1_win
+FAZE,RAVENS,3,1,True
+FAZE,GUERRILLAS,2,3,False
+date,t1,t2,tm_1_score,tm_2_score,tm_1_win
+"[<Selector query=""descendant-or-self::*[@class and contains(concat(' ', normalize-space(@class), ' '), ' match-overview-subheader ')]/p[count(preceding-sibling::*) = 0]/text()"" data='Saturday 4th May, 2024'>]",FAZE,RAVENS,3,1,True
+"[<Selector query=""descendant-or-self::*[@class and contains(concat(' ', normalize-space(@class), ' '), ' match-overview-subheader ')]/p[count(preceding-sibling::*) = 0]/text()"" data='Sunday 17th March, 2024'>]",FAZE,GUERRILLAS,2,3,False
+date,t1,t2,tm_1_score,tm_2_score,tm_1_win
+"<p>Saturday 4th May, 2024</p>",FAZE,RAVENS,3,1,True
+"<p>Sunday 17th March, 2024</p>",FAZE,GUERRILLAS,2,3,False
+date,t1,t2,tm_1_score,tm_2_score,tm_1_win
+"Saturday 4th May, 2024",FAZE,RAVENS,3,1,True
+"Sunday 17th March, 2024",FAZE,GUERRILLAS,2,3,False
+date,t1,t2,tm_1_score,tm_2_score,tm_1_win
+"Saturday 4th May, 2024",FAZE,RAVENS,3,1,True
+"Sunday 17th March, 2024",FAZE,GUERRILLAS,2,3,False
+date,t1,t2,tm_1_score,tm_2_score,tm_1_win
+"Saturday 4th May, 2024",FAZE,RAVENS,3,1,True
+"Sunday 17th March, 2024",FAZE,GUERRILLAS,2,3,False
+date,t1,t2,tm_1_score,tm_2_score,tm_1_win
+"Saturday 4th May, 2024",FAZE,RAVENS,3,1,True
+"Sunday 17th March, 2024",FAZE,GUERRILLAS,2,3,False
+date,t1,t2,tm_1_score,tm_2_score,tm_1_win
+"Saturday 4th May, 2024",FAZE,RAVENS,3,1,True
+"Sunday 17th March, 2024",FAZE,GUERRILLAS,2,3,False
+date,t1,t2,tm_1_score,tm_2_score,tm_1_win
+"Saturday 4th May, 2024",FAZE,RAVENS,3,1,True
+"Sunday 17th March, 2024",FAZE,GUERRILLAS,2,3,False
+date,t1,t2,tm_1_score,tm_2_score,tm_1_win
+"Saturday 4 May, 2024",FAZE,RAVENS,3,1,True
+"Sunday 17 March, 2024",FAZE,GUERRILLAS,2,3,False
+date,t1,t2,tm_1_score,tm_2_score,tm_1_win
+2024-05-04 00:00:00,FAZE,RAVENS,3,1,True
+2024-03-17 00:00:00,FAZE,GUERRILLAS,2,3,False

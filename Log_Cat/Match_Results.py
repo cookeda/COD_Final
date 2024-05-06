@@ -1,5 +1,8 @@
 import scrapy
 from sklearn.preprocessing  import OneHotEncoder
+from datetime import datetime
+import pandas as pd
+
 import re
 
 class MatchResultsSpider(scrapy.Spider):
@@ -7,12 +10,12 @@ class MatchResultsSpider(scrapy.Spider):
     allowed_domains = ["cdl.game5.gg"]
     start_urls = ["http://cdl.game5.gg/team"]
 
-    def parse(self, response):
-        # Starting the crawl from the homepage to a specific match page
-        # match_url = "https://cdl.game5.gg/major-3-qualifiers-2024/atlanta-faze-vs-carolina-royal-ravens/1605"
-        # yield scrapy.Request('https://cdl.game5.gg/major-2-qualifiers-2024/atlanta-faze-vs-los-angeles-guerrillas/1455', callback=self.parse_match)
-        # yield scrapy.Request('https://cdl.game5.gg/major-3-qualifiers-2024/atlanta-faze-vs-carolina-royal-ravens/1605', callback=self.parse_match)
-        yield scrapy.Request('https://cdl.game5.gg/team/atlanta-faze/2/results/p1', callback=self.parse_result_page)
+    # def parse(self, response):
+    #     # Starting the crawl from the homepage to a specific match page
+    #     # match_url = "https://cdl.game5.gg/major-3-qualifiers-2024/atlanta-faze-vs-carolina-royal-ravens/1605"
+    #     yield scrapy.Request('https://cdl.game5.gg/major-2-qualifiers-2024/atlanta-faze-vs-los-angeles-guerrillas/1455', callback=self.parse_match_result)
+    #     yield scrapy.Request('https://cdl.game5.gg/major-3-qualifiers-2024/atlanta-faze-vs-carolina-royal-ravens/1605', callback=self.parse_match_result)
+    #     # yield scrapy.Request('https://cdl.game5.gg/team/atlanta-faze/2/results/p1', callback=self.parse_result_page)
 
     def parse(self, response):
         team_links = []
@@ -78,13 +81,13 @@ class MatchResultsSpider(scrapy.Spider):
 
         tm1_win = (tm1_score == winner_score)
 
+        date_text = response.css('.match-overview-subheader > p:nth-child(1)::text').get()
+        date_text = re.sub(r"(\d+)(st|nd|rd|th)", r"\1", date_text)
+        date = pd.to_datetime(date_text, format="%A %d %B, %Y")
 
 
         yield {
-            # 'winner': winner_score,
-            # 'loser': loser_score,
-            # 't1_id': tm1_name,
-            # 't2_id': tm2_name,
+            'date': date,
             't1': tm1_name.split(' ')[-1].upper(),
             't2': tm2_name.split(' ')[-1].upper(),
             'tm_1_score': tm1_score,

@@ -4,6 +4,16 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.metrics import classification_report
+from sklearn.model_selection import GridSearchCV
+from sklearn.linear_model import LogisticRegression
+from sklearn.datasets import make_blobs
+from sklearn.model_selection import RepeatedStratifiedKFold
+from sklearn.model_selection import cross_val_score
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import GridSearchCV
+from sklearn.preprocessing import normalize
+import numpy as np
+
 
 data = pd.read_csv('results.csv')
 
@@ -18,36 +28,28 @@ data = pd.read_csv('results.csv')
 # Selecting categorical columns
 categorical_columns = ['t1', 't2']
 
-# Creating the encoder
 encoder = OneHotEncoder(sparse_output=False)
-
-# Fitting and transforming the encoder on categorical columns
 one_hot_encoded = encoder.fit_transform(data[categorical_columns])
 one_hot_df = pd.DataFrame(one_hot_encoded, columns=encoder.get_feature_names_out(categorical_columns))
 
-# Concatenating the encoded df with the original df and dropping the original categorical columns
 df_encoded = pd.concat([data.drop(categorical_columns, axis=1), one_hot_df], axis=1)
+df_encoded['score_diff'] = abs(df_encoded['tm_1_score'] - df_encoded['tm_2_score'])
+columns_to_drop = ['tm_1_score', 'tm_2_score', 'tm_1_win', 'date']  # add any other columns that should not be used as features
 
-# Defining the target variable and features
+# Feature matrix X
+X = df_encoded.drop(columns=columns_to_drop)
 y = df_encoded['tm_1_win']
-X = df_encoded.drop('tm_1_win', axis=1)
+print('x, y', X, y)
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-model = LogisticRegression(class_weight='balanced')
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.19775, random_state=42)
+model = LogisticRegression(max_iter=1000, C=0.0375, penalty = 'l2')  # Lower C means higher regularization
 model.fit(X_train, y_train)
 
 y_pred = model.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 conf_matrix = confusion_matrix(y_test, y_pred)
+report = classification_report(y_test, y_pred)
 
-
-# Split the data
-print(df_encoded.head())
-print(y)
-print(y.value_counts())
-print(X)
-
-print("Accuracy:", accuracy)
+print("Accuracy on Test Set:", accuracy)
 print("Confusion Matrix:\n", conf_matrix)
-print(classification_report(y_test, y_pred))
+print("Classification Report:\n", report)

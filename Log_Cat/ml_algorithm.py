@@ -3,6 +3,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.metrics import classification_report
 
 data = pd.read_csv('results.csv')
 
@@ -14,36 +15,39 @@ data = pd.read_csv('results.csv')
 5. Evaluate the model
 '''
 
-categorical_columns = data.select_dtypes(include=['object']).columns.tolist()
+# Selecting categorical columns
+categorical_columns = ['t1', 't2']
 
+# Creating the encoder
 encoder = OneHotEncoder(sparse_output=False)
 
+# Fitting and transforming the encoder on categorical columns
 one_hot_encoded = encoder.fit_transform(data[categorical_columns])
 one_hot_df = pd.DataFrame(one_hot_encoded, columns=encoder.get_feature_names_out(categorical_columns))
 
-df_encoded = pd.concat([data, one_hot_df], axis=1)
-df_encoded = df_encoded.drop(categorical_columns, axis=1)
-df_encoded.to_csv('encoded_results.csv')
+# Concatenating the encoded df with the original df and dropping the original categorical columns
+df_encoded = pd.concat([data.drop(categorical_columns, axis=1), one_hot_df], axis=1)
 
+# Defining the target variable and features
+y = df_encoded['tm_1_win']
+X = df_encoded.drop('tm_1_win', axis=1)
 
-# Set the features and target
-X = abs(df_encoded['tm_1_score'] - df_encoded['tm_2_score'])
-y = df_encoded['tm_1_win']  # Target: 'team1_win'
-
-# Split data into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Initialize and train logistic regression model
-model = LogisticRegression()
+model = LogisticRegression(class_weight='balanced')
 model.fit(X_train, y_train)
 
-# Predict and evaluate the model
 y_pred = model.predict(X_test)
-print("Accuracy:", accuracy_score(y_test, y_pred))
-print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
+accuracy = accuracy_score(y_test, y_pred)
+conf_matrix = confusion_matrix(y_test, y_pred)
 
-# Save the encoded data to a new CSV file
-df_encoded.to_csv('encoded_results.csv')
 
-# Display the resulting dataframe
-print(f"Encoded data:\n{df_encoded.head()}")
+# Split the data
+print(df_encoded.head())
+print(y)
+print(y.value_counts())
+print(X)
+
+print("Accuracy:", accuracy)
+print("Confusion Matrix:\n", conf_matrix)
+print(classification_report(y_test, y_pred))

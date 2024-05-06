@@ -8,14 +8,14 @@ def switch_case(x):
         'M2': 'S&D',
         'M3': 'CTRL',
         'M4': 'Total'
-    }.get(str(x), 'Unknown')  # Return 'Unknown' if x is not a key
+    }.get(str(x), 'Unknown') 
 
 def team_switch_case(z):
     return {
         1: 'Tm_1',
         2: 'Tm_2',
         3: 'Total',
-    }.get(z, 'Unknown')  # Return 'Unknown' if z is not a key
+    }.get(z, 'Unknown')
 
 def main(x, z):
     conn = sqlite3.connect('cod_results.db')
@@ -32,7 +32,6 @@ def main(x, z):
         print(f"No data available for team {team}.")
         return
 
-    # Prepare data for plotting
     if team == 'Total' and x == 'M4':
         value_vars = ['Total_M4_Kills']
         label = 'Combined Kills'
@@ -52,7 +51,6 @@ def main(x, z):
         print(f"No kill data available for {team} in mode {x}.")
         return
 
-    # Plotting
     plt.figure(figsize=(10, 6))
     scatter = plt.scatter(mode_kills_data['Date'], mode_kills_data['Mode_Kills'], 
                           c=pd.factorize(mode_kills_data['Game'])[0],
@@ -64,7 +62,6 @@ def main(x, z):
     plt.xticks(rotation=45)
     plt.grid(True)
 
-    # Handle legend
     try:
         handles, labels = scatter.legend_elements(prop="colors", alpha=0.6)
         legend_labels = pd.factorize(mode_kills_data['Game'])[1]
@@ -73,10 +70,10 @@ def main(x, z):
         print(f"Failed to create legend due to: {e}")
 
     plt.tight_layout()
-    plt.show()
+    plt.savefig(f'Results/MatPlotLib/{switch_case(x)}/{label}.png')
 
 if __name__ == '__main__':
-    for x in ['M1', 'M2', 'M3', 'M4']:  # M4 now included in the loop
-        main(x, 3)  # Changed to handle all modes with 'Total' team
-        main(x, 1)  # Handling for Team 1
-        main(x, 2)  # Handling for Team 2
+    for x in ['M1', 'M2', 'M3', 'M4']: 
+        main(x, 3) 
+        main(x, 1) 
+        main(x, 2) 

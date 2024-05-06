@@ -17,7 +17,7 @@ NEWSPIDER_MODULE = "COD.spiders"
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = False  # Change to False if no robots.txt file and you accept the ethical implications
+ROBOTSTXT_OBEY = True  # Change to False if no robots.txt file and you accept the ethical implications
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 CONCURRENT_REQUESTS = 10

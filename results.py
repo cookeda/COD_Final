@@ -15,7 +15,6 @@ class TeamsSpider(scrapy.Spider):
         self.create_table()
 
     def create_table(self):
-        # Create tables if they don't exist
         self.cur.execute('''DROP TABLE IF EXISTS Matches;''')
         
         self.cur.execute('''CREATE TABLE IF NOT EXISTS Matches (
@@ -94,16 +93,16 @@ class TeamsSpider(scrapy.Spider):
             team_links.append(response.css(f'li.product__item:nth-child({x}) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > a:nth-child(1)').attrib['href'])
         for link in team_links:
             full_url = response.urljoin(link)
-            print("Queueing team page:", full_url)
+            print("Parse team:", full_url)
             yield scrapy.Request(full_url, callback=self.parse_team, meta={'full_url': full_url})
 
     def parse_team(self, response):
         team_name = response.css('h1::text').get()
         #full_url = response.urljoin('/result')
 
-        print("Parsing team:", team_name)
+        print("Team: ", team_name)
         result_list_href = response.css('div.card--has-table > div:nth-child(1) > a:nth-child(2)').attrib['href']
-        print("Grabbing result list:", result_list_href)
+        print("Parse result list:", result_list_href)
         full_url = response.urljoin(result_list_href)
         yield scrapy.Request(full_url, callback=self.parse_result_list, meta={'full_url': response.meta['full_url']})
     
@@ -111,9 +110,8 @@ class TeamsSpider(scrapy.Spider):
         print("TESTING")
         results_pages = response.css('.pagination > li:nth-child(5) > a:nth-child(1)').extract_first()
         total_pages = int(re.search(r'(?<=/p)\d+', results_pages).group())
-        print('Total Number of Results Pages:', total_pages)
+        print('Number of pages: ', total_pages)
         
-        # Generate requests for each page URL
         for page_num in range(1, total_pages + 1):
             page_url = f"{response.url}/p{page_num}"
             print("Processing page:", page_url)
@@ -125,14 +123,11 @@ class TeamsSpider(scrapy.Spider):
         for button in match_result_buttons:
             match_result_url = button.attrib['href']
             full_match_result_url = response.urljoin(match_result_url)
-            print("Match Result URL:", full_match_result_url)
-            # Now you can yield a request to scrape data from the match result page
+            print("Match url:", full_match_result_url)
             yield scrapy.Request(full_match_result_url, callback=self.parse_match_result, meta={'full_url': response.meta['full_url']})
 
     def parse_match_result(self, response):
-        # Parse data from the match result page here
-        print("Parse Match Result TESTING")
-                # Match Overview
+        print("MATCH RESULT PARSE")
         t1_name = response.css('div.live-match-team:nth-child(1) > h4:nth-child(2) > a:nth-child(1)::text').get()
         t2_name = response.css('div.live-match-team:nth-child(3) > h4:nth-child(2) > a:nth-child(1)::text').get()
 
@@ -142,9 +137,6 @@ class TeamsSpider(scrapy.Spider):
         team1_href = response.css('div.live-match-team:nth-child(1) > h4:nth-child(2) > a:nth-child(1)').attrib['href'] 
         team2_href = response.css('div.live-match-team:nth-child(3) > h4:nth-child(2) > a:nth-child(1)').attrib['href']
         print('Team hrefs:',  team1_href, team2_href)
-
-        # team1_href = '/team/boston-breach/186'
-        # team2_href = '/team/atlanta-faze/2'
 
         team1_id = team1_href.split('/')[-1]
         team2_id = team2_href.split('/')[-1]
